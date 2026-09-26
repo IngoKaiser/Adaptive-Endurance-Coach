@@ -5,7 +5,13 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 SPEC_FILE="$ROOT/requirements-mcp.txt"
 ENV_FILE="$ROOT/.env"
 
-if [ -z "${INTERVALS_ICU_API_KEY:-}" ] && [ -f "$ENV_FILE" ]; then
+# .env is this project's canonical local secret store (see .env.example).
+# When present, it takes priority over any ambient/inherited environment
+# (e.g. a host-wide "local environment" setting shared across unrelated
+# projects or sessions) so credentials stay scoped to this project. Cloud
+# sessions have no .env file and rely solely on injected cloud secrets
+# (see scripts/cloud-setup.sh), so this is a no-op there.
+if [ -f "$ENV_FILE" ]; then
   set -a
   # shellcheck disable=SC1090
   . "$ENV_FILE"
