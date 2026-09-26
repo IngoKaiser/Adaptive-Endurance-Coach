@@ -18,4 +18,12 @@ if [ -z "${INTERVALS_ICU_API_KEY:-}" ] || [ -z "${INTERVALS_ICU_ATHLETE_ID:-}" ]
   exit 1
 fi
 
+if ! command -v claude >/dev/null 2>&1; then
+  echo "Claude Code CLI ('claude') not found on PATH." >&2
+  echo "This script is only needed for the terminal CLI. To run without it, open this" >&2
+  echo "project folder in the Claude Desktop app's Code tab or in claude.ai/code instead" >&2
+  echo "-- see README.md, 'Running the coach'." >&2
+  exit 1
+fi
+
 exec claude

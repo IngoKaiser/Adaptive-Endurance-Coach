@@ -34,7 +34,7 @@ Tracked public files contain only templates and rules. These are gitignored and 
 
 ## Local setup
 
-Prerequisites: Claude Code, `uv`/`uvx`, Intervals.icu athlete ID + API key.
+Prerequisites: `uv`/`uvx`, Intervals.icu athlete ID + API key, and one Claude front end (see "Running the coach" below — the Claude Code CLI is only one option, not a requirement).
 
 ```bash
 ./scripts/setup.sh
@@ -48,13 +48,29 @@ training/profile.local.yaml
 
 Connect MyWhoosh to Intervals.icu through MyWhoosh's normal Connections flow; no MyWhoosh password belongs in this project.
 
-Start:
+`setup.sh` only writes `.env` and your local profile; it does not install or require any particular Claude front end.
+
+## Running the coach
+
+The project only needs something that can read `CLAUDE.md`, start the MCP server from `.mcp.json`, and run the skills in `.claude/skills/`. Pick whichever front end you have — no option is required over another.
+
+### Option A: Claude Code CLI (terminal)
 
 ```bash
 ./start.sh
 ```
 
-Inside Claude Code verify `/mcp`, then use `/plan-week`, `/today`, `/reschedule` or `/review-week`.
+This execs `claude` in the project root, which loads `CLAUDE.md`, `.mcp.json` and the skills automatically.
+
+### Option B: Claude Desktop app or claude.ai/code — no CLI install needed
+
+1. Open this project folder as a project in the Claude Desktop app's Code tab, or in claude.ai/code.
+2. Both read `CLAUDE.md` and `.mcp.json` the same way the CLI does: the `intervals-icu` MCP server starts from the committed config, and `.claude/skills/` provides the same `/plan-week`, `/today`, `/reschedule` and `/review-week` commands.
+3. Make sure `.env` (created by `./scripts/setup.sh`) already exists in the project root before opening it, so the MCP server can read your Intervals.icu credentials.
+
+`scripts/doctor.sh` checks for the `claude` CLI binary by default; when running through the Desktop app or claude.ai/code instead, use `REQUIRE_CLAUDE=0 ./scripts/doctor.sh`.
+
+Either way: verify `/mcp` first, then use `/plan-week`, `/today`, `/reschedule` or `/review-week`.
 
 ## Claude Code Cloud
 
