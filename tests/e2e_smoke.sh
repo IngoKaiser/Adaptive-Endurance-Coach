@@ -21,6 +21,6 @@ perms="$(stat -c '%a' .env 2>/dev/null || stat -f '%Lp' .env)"
 [ "$perms" = "600" ]
 
 grep -q '^INTERVALS_ICU_API_KEY=ci_dummy_key_123456$' .env
-! grep -R --exclude=.env --exclude='*.local.yaml' -q 'ci_dummy_key_123456' .
+grep -R --exclude=.env --exclude='*.local.yaml' --exclude=e2e_smoke.sh -q 'ci_dummy_key_123456' . && exit 1
 
 REQUIRE_CLAUDE=0 REQUIRE_UVX=0 ./scripts/doctor.sh >/tmp/adaptive-endurance-doctor.log
