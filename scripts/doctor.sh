@@ -4,14 +4,12 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 status=0
 
-for cmd in python3; do
-  if command -v "$cmd" >/dev/null 2>&1; then
-    echo "OK: $cmd -> $(command -v "$cmd")"
-  else
-    echo "MISSING: $cmd"
-    status=1
-  fi
-done
+if command -v python3 >/dev/null 2>&1; then
+  echo "OK: python3 -> $(command -v python3)"
+else
+  echo "MISSING: python3"
+  status=1
+fi
 
 if [ "${REQUIRE_UVX:-1}" = "1" ]; then
   if command -v uvx >/dev/null 2>&1; then echo "OK: uvx -> $(command -v uvx)"; else echo "MISSING: uvx"; status=1; fi
