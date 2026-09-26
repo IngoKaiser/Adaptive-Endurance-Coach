@@ -1,0 +1,31 @@
+# Secrets and personal athlete data
+.env
+.env.*
+!.env.example
+training/*.local.yaml
+training/*.local.yml
+training/*.local.json
+CLAUDE.local.md
+
+# Claude local overrides
+.claude/settings.local.json
+
+# Python / test artifacts
+.venv/
+__pycache__/
+*.py[cod]
+.coverage
+htmlcov/
+.pytest_cache/
+
+# OS / editor / logs
+.DS_Store
+*.log
+.idea/
+.vscode/
+
+# Keys and certificates
+*.pem
+*.key
+*.p12
+*.pfx

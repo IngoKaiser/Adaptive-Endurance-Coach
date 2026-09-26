@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "intervals-icu": {
+      "type": "stdio",
+      "command": "./scripts/run-mcp.sh",
+      "args": [],
+      "env": {
+        "INTERVALS_ICU_API_KEY": "${INTERVALS_ICU_API_KEY}",
+        "INTERVALS_ICU_ATHLETE_ID": "${INTERVALS_ICU_ATHLETE_ID}",
+        "INTERVALS_ICU_DELETE_MODE": "safe"
+      }
+    }
+  }
+}

@@ -1,0 +1,51 @@
+# PUBLIC TEMPLATE ONLY.
+# Copy this file to training/profile.local.yaml and personalize it.
+# profile.local.yaml is intentionally gitignored.
+
+athlete:
+  timezone: Europe/Berlin
+  endurance_experience: "experienced recreational endurance athlete"
+
+devices:
+  cycling_trainer: "Wahoo KICKR"
+  running_watch: "Garmin Forerunner 965"
+
+platforms:
+  completed_activity_aggregator: "Strava"
+  planning_system_of_record: "Intervals.icu"
+  indoor_execution_platform: "MyWhoosh"
+  direct_source_credentials_in_coach: false
+  canonical_completed_activity_path: "Garmin/Wahoo/MyWhoosh -> Strava -> Intervals.icu"
+  planned_indoor_workout_path: "Intervals.icu -> MyWhoosh"
+  activity_sources:
+    - indoor_cycling
+    - outdoor_cycling
+    - running
+  notes: "Use Strava as the single completed-activity aggregator. Avoid parallel Garmin/Wahoo/MyWhoosh activity ingestion into Intervals.icu unless duplicate handling is verified."
+
+performance:
+  cycling_ftp_watts: null
+  ftp_source: null
+  resting_hr_bpm: null
+  max_hr_bpm: null
+  running_lactate_threshold_hr_bpm: null
+  notes: "Prefer current observed values. Garmin wellness values may be copied manually; do not guess unknown HR values."
+
+goals:
+  - improve aerobic fitness
+  - improve sustainable cycling power
+  - improve running fitness without compromising cycling progression
+  - reduce body fat gradually without compromising training quality
+  - maintain or improve strength
+
+availability:
+  target_endurance_sessions_per_week: 3
+  preferred_days: []
+  flexible_days: []
+  notes: "Keep personal family/work scheduling details in profile.local.yaml only."
+
+preferences:
+  max_hard_endurance_sessions_per_week: 2
+  consecutive_hard_days: false
+  indoor_mode: "ERG for structured intervals when appropriate"
+  plan_style: "structured but flexible; adapt the week instead of blindly catching up missed sessions"
