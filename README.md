@@ -111,6 +111,8 @@ See `training/initial-assessment.md`.
 
 The project uses the community `intervals-icu-mcp` package and pins it in `requirements-mcp.txt`. `scripts/run-mcp.sh` executes exactly that pinned version with `INTERVALS_ICU_DELETE_MODE=safe` supplied by `.mcp.json`.
 
+Behind a TLS-intercepting corporate proxy (e.g. Zscaler), calls may fail with `CERTIFICATE_VERIFY_FAILED` because Python's bundled `certifi` CA store does not trust the proxy's injected root certificate. Set `MCP_TRUST_SYSTEM_CERTS=1` in `.env` to make the MCP process trust the OS certificate store instead (adds the pinned `pip-system-certs` package for that run only).
+
 ## Publishing
 
 After creating a public GitHub repository, replace `@YOUR_GITHUB_USERNAME` in `.github/CODEOWNERS`, enable branch/ruleset protection for `main`, require the `CI` checks, and keep secret scanning/push protection enabled.
