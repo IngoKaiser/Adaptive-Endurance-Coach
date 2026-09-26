@@ -17,7 +17,8 @@ export INTERVALS_ICU_ATHLETE_ID="i123456"
 
 [ -f .env ]
 [ -f training/profile.local.yaml ]
-[ "$(stat -c '%a' .env)" = "600" ]
+perms="$(stat -c '%a' .env 2>/dev/null || stat -f '%Lp' .env)"
+[ "$perms" = "600" ]
 
 grep -q '^INTERVALS_ICU_API_KEY=ci_dummy_key_123456$' .env
 ! grep -R --exclude=.env --exclude='*.local.yaml' -q 'ci_dummy_key_123456' .
