@@ -34,15 +34,6 @@ if [ -z "$SPEC" ]; then
   exit 2
 fi
 
-# Opt-in for networks with a TLS-intercepting corporate proxy (e.g. Zscaler),
-# where Python's bundled certifi CA store does not trust the proxy's
-# injected root certificate. Pinned separately from requirements-mcp.txt,
-# which must contain only the intervals-icu-mcp pin (see
-# scripts/validate_project.py). Set MCP_TRUST_SYSTEM_CERTS=1 in .env to
-# enable; it makes Python trust the OS certificate store instead of certifi.
-PIP_SYSTEM_CERTS_SPEC="pip-system-certs==5.3"
-if [ "${MCP_TRUST_SYSTEM_CERTS:-0}" = "1" ]; then
-  exec uvx --from "$SPEC" --with "$PIP_SYSTEM_CERTS_SPEC" intervals-icu-mcp "$@"
-fi
+echo "run-mcp: TLS CA bundle = ${SSL_CERT_FILE:-certifi default}" >&2
 
 exec uvx --from "$SPEC" intervals-icu-mcp "$@"

@@ -113,7 +113,17 @@ See `training/initial-assessment.md`.
 
 The project uses the community `intervals-icu-mcp` package and pins it in `requirements-mcp.txt`. `scripts/run-mcp.sh` executes exactly that pinned version with `INTERVALS_ICU_DELETE_MODE=safe` supplied by `.mcp.json`.
 
-Behind a TLS-intercepting corporate proxy (e.g. Zscaler), calls may fail with `CERTIFICATE_VERIFY_FAILED` because Python's bundled `certifi` CA store does not trust the proxy's injected root certificate. Set `MCP_TRUST_SYSTEM_CERTS=1` in `.env` to make the MCP process trust the OS certificate store instead (adds the pinned `pip-system-certs` package for that run only).
+### Corporate TLS proxy (e.g. Zscaler)
+
+Behind a TLS-intercepting proxy, MCP calls fail with `CERTIFICATE_VERIFY_FAILED` because Python's bundled `certifi` store does not contain the proxy's root CA. The proxy is a property of the machine, not of this project, so the fix lives at machine/user level and applies to every MCP launch path, worktree and project:
+
+1. Build a CA bundle (certifi + proxy root CA from the macOS keychain) at `~/.config/zscaler/ca-bundle.pem`:
+   `./scripts/build-ca-bundle.sh`
+2. Add it to the `env` block of the user-level `~/.claude/settings.json`, so Claude Code passes it to every MCP server it starts:
+   `"env": { "SSL_CERT_FILE": "/Users/<you>/.config/zscaler/ca-bundle.pem", "REQUESTS_CA_BUNDLE": "/Users/<you>/.config/zscaler/ca-bundle.pem" }`
+3. Restart the Claude app and verify with `./scripts/doctor.sh`.
+
+The bundle is a superset of certifi, so it also works off the corporate network. Rerun step 1 if the proxy rotates its root CA; `doctor.sh` reports TLS failures explicitly and warns when the bundle is older than 90 days. `run-mcp.sh` logs the CA bundle in use to stderr at startup.
 
 ## Publishing
 
