@@ -66,7 +66,9 @@ This execs `claude` in the project root, which loads `CLAUDE.md`, `.mcp.json` an
 
 1. Open this project folder as a project in the Claude Desktop app's Code tab, or in claude.ai/code.
 2. Both read `CLAUDE.md` and `.mcp.json` the same way the CLI does: the `intervals-icu` MCP server starts from the committed config, and `.claude/skills/` provides the same `/plan-week`, `/today`, `/reschedule` and `/review-week` commands.
-3. Make sure `.env` (created by `./scripts/setup.sh`) already exists in the project root before opening it, so the MCP server can read your Intervals.icu credentials.
+3. Make sure `.env` (created by `./scripts/setup.sh`) exists in that session's own project checkout before opening it, so the MCP server can read your Intervals.icu credentials.
+
+**Each new Code-tab / claude.ai/code session may open its own git worktree**, not the same folder every time. `.env` and `training/profile.local.yaml` are gitignored and are *not* copied into a new worktree automatically, so the first time you use a new session/worktree, run `./scripts/setup.sh` there again (or copy the two files over) before expecting `intervals-icu` to connect with real credentials.
 
 `scripts/doctor.sh` checks for the `claude` CLI binary by default; when running through the Desktop app or claude.ai/code instead, use `REQUIRE_CLAUDE=0 ./scripts/doctor.sh`.
 
